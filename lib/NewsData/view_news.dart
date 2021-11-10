@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:class_08/NewsData/model.dart';
+import 'package:class_08/NewsData/singlenews.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart'as http;
 class ViewNews extends StatefulWidget {
@@ -47,12 +48,22 @@ var newsList = List<News>.empty();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body:isLoading ? CircularProgressIndicator(): ListView.builder(
+      body:isLoading ? CircularProgressIndicator():
+      ListView.builder(
           itemCount: newsList.length,
-          itemBuilder: (BuildContext contex, int index){return ListTile(
+          itemBuilder: (BuildContext contex, int index){
+            return
+              InkWell(
+                onTap: (){
+                  Navigator.push(context,
+                      MaterialPageRoute(builder:
+                          (builder)=>SingleNews(newsList[index])));
+                },
+                child: ListTile(
         title:Text(newsList[index].title) ,
-            leading: Image.network(newsList[index].urlToImage),
-      );}),
+           subtitle:Text(newsList[index].author),
+      ),
+              );}),
     );
   }
 }
